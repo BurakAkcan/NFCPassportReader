@@ -284,7 +284,7 @@ extension PassportReader {
             }else {
                 
                 
-                if(self?.passport.firstName != nil && self?.passport.firstName != "" && self?.passport.passportImage != nil)
+                if(self?.passport.firstName != nil && self?.passport.lastName != "" && self?.passport.passportImage != nil)
                 {
                     self?.updateReaderSessionMessage(alertMessage: NFCViewDisplayMessage.successfulRead)
 
