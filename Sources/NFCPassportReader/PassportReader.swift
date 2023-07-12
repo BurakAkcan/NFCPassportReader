@@ -281,6 +281,34 @@ extension PassportReader {
                 self?.passport.BACStatus = .failed
                 let displayMessage = NFCViewDisplayMessage.error(error)
                 self?.invalidateSession(errorMessage: displayMessage, error: error)
+            }else {
+                
+                
+                if(self?.passport.firstName != nil && self?.passport.firstName != "" && self?.passport.passportImage != nil)
+                {
+                    self?.updateReaderSessionMessage(alertMessage: NFCViewDisplayMessage.successfulRead)
+
+                    OpenSSLUtils.loadOpenSSL()
+
+                    // Before we finish, check if we should do active authentication
+                    self?.doActiveAuthenticationIfNeccessary() {
+                        // We succesfully read the passport, now we're about to invalidate the session. Before
+                        // doing so, we want to be sure that the 'user cancelled' error that we're causing by
+                        // calling 'invalidate' will not be reported back to the user
+                        self?.shouldNotReportNextReaderSessionInvalidationErrorUserCanceled = true
+                        self?.readerSession?.invalidate()
+
+                        // If we have a masterlist url set then use that and verify the passport now
+                        self?.passport.verifyPassport(masterListURL: self?.masterListURL)
+                        self?.scanCompletedHandler( self?.passport, nil )
+
+                        OpenSSLUtils.cleanupOpenSSL()
+                }
+              
+                }else {
+                    self?.invalidateSession(errorMessage:NFCViewDisplayMessage.error(.ConnectionError), error: .NoConnectedTag )
+
+                }
             }
         })
     }
