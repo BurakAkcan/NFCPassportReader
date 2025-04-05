@@ -461,14 +461,15 @@ extension PassportReader {
         throw nfcPassportReaderError
     }
 
-    func invalidateSession(errorMessage: NFCViewDisplayMessage, error: NFCPassportReaderError) {
-        // Mark the next 'invalid session' error as not reportable (we're about to cause it by invalidating the
-        // session). The real error is reported back with the call to the completed handler
-        self.shouldNotReportNextReaderSessionInvalidationErrorUserCanceled = true
-        self.readerSession?.invalidate(errorMessage: self.nfcViewDisplayMessageHandler?(errorMessage) ?? errorMessage.description)
-        nfcContinuation?.resume(throwing: error)
-        nfcContinuation = nil
+  func invalidateSession(errorMessage: NFCViewDisplayMessage, error: NFCPassportReaderError) {
+    self.shouldNotReportNextReaderSessionInvalidationErrorUserCanceled = true
+    
+    DispatchQueue.main.async {
+      self.readerSession?.invalidate(errorMessage: self.nfcViewDisplayMessageHandler?(errorMessage) ?? errorMessage.description)
+      self.nfcContinuation?.resume(throwing: error)
+      self.nfcContinuation = nil
     }
+  }
     
     internal func addDatagroupsToRead(com: COM, to DGsToRead: inout [DataGroupId]) {
         DGsToRead += com.dataGroupsPresent.compactMap { DataGroupId.getIDFromName(name:$0) }
