@@ -5,19 +5,25 @@ import PackageDescription
 
 let package = Package(
     name: "NFCPassportReader",
-    platforms: [.iOS("15.0")],
+    platforms: [.iOS("13.0")],
     products: [
         .library(
             name: "NFCPassportReader",
             targets: ["NFCPassportReader"]),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(url: "https://github.com/krzyzanowskim/OpenSSL.git", .upToNextMinor(from: "1.1.1900"))
+    ],
     targets: [
         .target(
             name: "NFCPassportReader",
-            dependencies: []),
+            dependencies: [
+                .product(name: "OpenSSL", package: "OpenSSL")
+            ]
+        ),
         .testTarget(
             name: "NFCPassportReaderTests",
-            dependencies: ["NFCPassportReader"])
+            dependencies: ["NFCPassportReader"]
+        )
     ]
 )
