@@ -58,7 +58,6 @@ public func AESEncrypt(key:[UInt8], message:[UInt8], iv:[UInt8]) -> [UInt8] {
         
         return [UInt8](cryptData)
     } else {
-        Logger.passportReader.error("AES Encrypt Error: \(cryptStatus)")
     }
     return []
 }
@@ -111,7 +110,6 @@ public func AESDecrypt(key:[UInt8], message:[UInt8], iv:[UInt8]) -> [UInt8] {
         
         return [UInt8](cryptData)
     } else {
-        Logger.passportReader.error("AES Decrypt Error: \(cryptStatus)")
     }
     return []
 }
@@ -160,7 +158,6 @@ public func AESECBEncrypt(key:[UInt8], message:[UInt8]) -> [UInt8] {
         
         return [UInt8](cryptData)
     } else {
-        Logger.passportReader.error("AESECBEncrypt Error: \(cryptStatus)")
     }
     return []
 }
@@ -215,7 +212,6 @@ public func tripleDESEncrypt(key:[UInt8], message:[UInt8], iv:[UInt8]) -> [UInt8
         
         return [UInt8](cryptData)
     } else {
-        Logger.passportReader.error("Error: \(cryptStatus)")
     }
     return []
 }
@@ -268,7 +264,6 @@ public func tripleDESDecrypt(key:[UInt8], message:[UInt8], iv:[UInt8]) -> [UInt8
         
         return [UInt8](cryptData)
     } else {
-        Logger.passportReader.error("Error: \(cryptStatus)")
     }
     return []
 }
@@ -320,7 +315,6 @@ public func DESEncrypt(key:[UInt8], message:[UInt8], iv:[UInt8], options:UInt32 
         
         return [UInt8](cryptData)
     } else {
-        Logger.passportReader.error("Error: \(cryptStatus)")
     }
     return []
 }
@@ -371,7 +365,6 @@ public func DESDecrypt(key:[UInt8], message:[UInt8], iv:[UInt8], options:UInt32 
         
         return [UInt8](cryptData)
     } else {
-        Logger.passportReader.error("Error: \(cryptStatus)")
     }
     return []
 }
